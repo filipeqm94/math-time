@@ -68,7 +68,18 @@ export function makeWordProblem() {
   }
 }
 
+function makeUniqueWord(usedCount) {
+  let p, attempts = 0;
+  do {
+    p = makeWordProblem();
+    attempts++;
+  } while ((usedCount[p.text] ?? 0) >= 2 && attempts < 20);
+  usedCount[p.text] = (usedCount[p.text] ?? 0) + 1;
+  return p;
+}
+
 export function generateWordProblems() {
   _rng = getDailyRandom();
-  return Array.from({ length: 10 }, makeWordProblem);
+  const usedCount = {};
+  return Array.from({ length: 10 }, () => makeUniqueWord(usedCount));
 }

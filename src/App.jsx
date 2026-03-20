@@ -43,6 +43,7 @@ export default function App() {
         wChecked={wChecked}
         score={score}
         wScore={wScore}
+        total={problems.length}
         onPrint={() => tab === "math"
           ? printProblems(problems, mode, STUDENT_NAME)
           : printWordProblems(wordProbs, STUDENT_NAME)

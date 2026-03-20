@@ -7,6 +7,7 @@ export default function NameHeader({
   wChecked,
   score,
   wScore,
+  total,
   onPrint,
   onNew,
 }) {
@@ -19,7 +20,7 @@ export default function NameHeader({
       <div className="header-right">
         {tab === 'math' && checked && (
           <div className="score-badge">
-            {score === 20 ? '🏆' : score >= 15 ? '⭐' : '📝'} {score}/20
+            {score === total ? '🏆' : score >= total * 0.75 ? '⭐' : '📝'} {score}/{total}
           </div>
         )}
         {tab === 'word' && wChecked && (

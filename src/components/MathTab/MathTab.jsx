@@ -15,8 +15,9 @@ export default function MathTab({
     (a, p, i) => a + (parseInt(answers[i]) === p.answer ? 1 : 0),
     0,
   )
+  const total = problems.length
   const allAnswered =
-    Object.keys(answers).filter(k => answers[k] !== '').length === 20
+    Object.keys(answers).filter(k => answers[k] !== '').length === total
 
   return (
     <>
@@ -99,18 +100,18 @@ export default function MathTab({
         ) : (
           <div className="result-panel">
             <div className="result-emoji">
-              {score === 20 ? '🏆' : score >= 18 ? '🌟' : score >= 15 ? '👍' : score >= 10 ? '💪' : '📚'}
+              {score === total ? '🏆' : score >= total * 0.9 ? '🌟' : score >= total * 0.75 ? '👍' : score >= total * 0.5 ? '💪' : '📚'}
             </div>
             <div className="result-text">
-              {score === 20
+              {score === total
                 ? `Perfect score, ${STUDENT_NAME}! You're a math superstar! 🎉`
-                : score >= 18
+                : score >= total * 0.9
                   ? `Amazing, ${STUDENT_NAME}! So close to perfect!`
-                  : score >= 15
+                  : score >= total * 0.75
                     ? `Great job, ${STUDENT_NAME}! Keep practicing!`
                     : `Good effort, ${STUDENT_NAME}! Keep going!`}
             </div>
-            <div className="result-score">{score} out of 20 correct</div>
+            <div className="result-score">{score} out of {total} correct</div>
             <button className="btn" onClick={onRetry}>
               Try Again! 🎲
             </button>

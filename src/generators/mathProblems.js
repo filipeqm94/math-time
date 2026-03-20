@@ -3,7 +3,7 @@ import { getDailyRandom } from './seededRandom.js';
 let _rng = getDailyRandom();
 const rand = (min, max) => Math.floor(_rng() * (max - min + 1)) + min;
 
-export function makeProblem(type) {
+function makeProblem(type) {
   if (type === "add") {
     const a = rand(100, 999), b = rand(100, 999);
     return { display: `${a} + ${b}`, answer: a + b, type };
@@ -27,10 +27,22 @@ export function makeProblem(type) {
   }
 }
 
+function makeUnique(type, usedCount) {
+  let p, attempts = 0;
+  do {
+    p = makeProblem(type);
+    attempts++;
+  } while ((usedCount[p.display] ?? 0) >= 2 && attempts < 20);
+  usedCount[p.display] = (usedCount[p.display] ?? 0) + 1;
+  return p;
+}
+
 export function generateProblems(mode = "mixed") {
   _rng = getDailyRandom();
+  const usedCount = {};
   if (mode !== "mixed") {
-    return Array.from({ length: 20 }, () => makeProblem(mode));
+    const count = mode === "frac" ? 10 : 20;
+    return Array.from({ length: count }, () => makeUnique(mode, usedCount));
   }
   return [
     ...Array(8).fill("add"),
@@ -38,5 +50,5 @@ export function generateProblems(mode = "mixed") {
     ...Array(3).fill("mul"),
     ...Array(2).fill("div"),
     ...Array(1).fill("frac"),
-  ].sort(() => Math.random() - 0.5).map(makeProblem);
+  ].sort(() => _rng() - 0.5).map(type => makeUnique(type, usedCount));
 }
