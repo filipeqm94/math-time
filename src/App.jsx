@@ -36,7 +36,7 @@ export default function App() {
   const wScore = wordProbs.reduce((a, p, i) => a + (parseInt(wAnswers[i]) === p.answer ? 1 : 0), 0);
 
   return (
-    <div style={S.app}>
+    <div style={S.app} className="app">
       <NameHeader
         tab={tab}
         checked={checked}
