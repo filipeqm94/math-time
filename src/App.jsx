@@ -41,6 +41,16 @@ export default function App() {
 
   const handleModeChange = (m) => { setMode(m); generate(m); };
 
+  const editAnswers = useCallback(() => {
+    setChecked(false);
+    setFirstCorrect([]);
+  }, []);
+
+  const editWAnswers = useCallback(() => {
+    setWChecked(false);
+    setWFirstCorrect([]);
+  }, []);
+
   const handleCheck = useCallback((probs, ans) => {
     const correct = probs.map((p, i) => parseInt(ans[i]) === p.answer ? i : -1).filter(i => i >= 0);
     setFirstCorrect(correct);
@@ -118,6 +128,7 @@ export default function App() {
           onAnswer={(i, val) => setAnswers((prev) => ({ ...prev, [i]: val }))}
           onCheck={() => handleCheck(problems, answers)}
           onSubmit={() => handleSubmit(problems, answers, firstCorrect, "math", mode)}
+          onEditAnswers={editAnswers}
         />
       )}
 
@@ -131,6 +142,7 @@ export default function App() {
           onAnswer={(i, val) => setWAnswers((prev) => ({ ...prev, [i]: val }))}
           onCheck={() => handleWCheck(wordProbs, wAnswers)}
           onSubmit={() => handleWSubmit(wordProbs, wAnswers, wFirstCorrect)}
+          onEditAnswers={editWAnswers}
         />
       )}
     </div>

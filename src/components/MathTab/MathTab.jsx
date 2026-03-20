@@ -12,6 +12,7 @@ export default function MathTab({
   onAnswer,
   onCheck,
   onSubmit,
+  onEditAnswers,
 }) {
   const total = problems.length
   const allAnswered = problems.every((_, i) => (answers[i] ?? '') !== '')
@@ -112,14 +113,10 @@ export default function MathTab({
                 : `${firstCorrect.length}/${total} on first try — fix the ones in red above!`}
             </div>
             <div className="result-score">{firstCorrect.length}/{total} first attempt</div>
-            {firstCorrect.length < total && (
-              <button className="btn-check" style={{ marginBottom: '12px' }} onClick={onSubmit}>
-                Submit Results 📬
-              </button>
-            )}
-            {firstCorrect.length === total && (
-              <button className="btn-check" onClick={onSubmit}>Submit Results 📬</button>
-            )}
+            <button className="btn-check" onClick={onSubmit}>Submit Results 📬</button>
+            <button className="btn" style={{ marginTop: '10px' }} onClick={onEditAnswers}>
+              ✏️ Fix a typo
+            </button>
           </div>
         ) : (
           <div className="result-panel">

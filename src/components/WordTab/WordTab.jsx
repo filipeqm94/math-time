@@ -10,6 +10,7 @@ export default function WordTab({
   onAnswer,
   onCheck,
   onSubmit,
+  onEditAnswers,
 }) {
   const total = problems.length
   const allAnswered = problems.every((_, i) => (answers[i] ?? '') !== '')
@@ -100,6 +101,9 @@ export default function WordTab({
             </div>
             <div className="result-score">{firstCorrect.length}/{total} first attempt</div>
             <button className="btn-check" onClick={onSubmit}>Submit Results 📬</button>
+            <button className="btn" style={{ marginTop: '10px' }} onClick={onEditAnswers}>
+              ✏️ Fix a typo
+            </button>
           </div>
         ) : (
           <div className="result-panel">
