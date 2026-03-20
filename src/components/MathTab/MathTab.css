@@ -1,0 +1,63 @@
+/* Mode filter tabs */
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background: rgba(255, 255, 255, 0.05);
+  color: #888;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.tab--active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Problem grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.card {
+  border: 2px solid;
+  border-radius: 16px;
+  padding: 18px;
+  position: relative;
+}
+
+.card-num {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 0.75rem;
+  color: #888;
+  font-weight: 700;
+}
+
+.card-type {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 1rem;
+}
+
+.problem {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  text-align: center;
+}

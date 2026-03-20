@@ -1,5 +1,5 @@
-import { COLORS, typeLabel, typeName, PLAYER_NAME } from '../constants.js'
-import { S } from '../styles.js'
+import { COLORS, typeLabel, typeName, PLAYER_NAME } from '../../constants.js'
+import './WordTab.css'
 
 export default function WordTab({
   problems,
@@ -18,11 +18,11 @@ export default function WordTab({
 
   return (
     <>
-      <p style={S.wordHint}>
+      <p className="word-hint">
         Read each problem carefully, then write your answer. 10 problems total.
       </p>
 
-      <div style={S.wordGrid}>
+      <div className="word-grid">
         {problems.map((p, i) => {
           const ans = answers[i] ?? ''
           const ok = checked && parseInt(ans) === p.answer
@@ -33,15 +33,9 @@ export default function WordTab({
           return (
             <div
               key={i}
+              className="word-card"
               style={{
-                ...S.wordCard,
-                borderColor: ok
-                  ? '#1DD1A1'
-                  : bad
-                    ? '#FF6B6B'
-                    : skip
-                      ? '#FFD700'
-                      : color + '55',
+                borderColor: ok ? '#1DD1A1' : bad ? '#FF6B6B' : skip ? '#FFD700' : color + '55',
                 background: ok
                   ? 'linear-gradient(135deg,#0d2e27,#1a4a3a)'
                   : bad
@@ -49,22 +43,18 @@ export default function WordTab({
                     : 'linear-gradient(135deg,#1a1a2e,#16213e)',
               }}
             >
-              <div style={S.wordHeader}>
-                <span style={S.wordNum}>#{i + 1}</span>
-                <span style={S.wordTypeTag}>
+              <div className="word-header">
+                <span className="word-num">#{i + 1}</span>
+                <span className="word-type-tag">
                   {typeLabel[p.type]} {typeName[p.type]}
                 </span>
               </div>
-              <p style={S.wordText}>{p.text}</p>
-              <div style={S.wordInputRow}>
-                <span style={{ color: '#aaa', fontSize: '0.9rem' }}>
-                  Answer:
-                </span>
+              <p className="word-text">{p.text}</p>
+              <div className="word-input-row">
+                <span className="word-answer-label">Answer:</span>
                 <input
+                  className="input word-input"
                   style={{
-                    ...S.input,
-                    flex: 1,
-                    maxWidth: '120px',
                     borderColor: ok ? '#1DD1A1' : bad ? '#FF6B6B' : color,
                     color: ok ? '#1DD1A1' : bad ? '#FF6B6B' : '#fff',
                   }}
@@ -75,43 +65,30 @@ export default function WordTab({
                   onChange={e => !checked && onAnswer(i, e.target.value)}
                 />
               </div>
-              {ok && <div style={S.feedback}>✅ Correct!</div>}
-              {bad && (
-                <div style={{ ...S.feedback, color: '#FF6B6B' }}>
-                  ❌ The answer is {p.answer}
-                </div>
-              )}
-              {skip && (
-                <div style={{ ...S.feedback, color: '#FFD700' }}>
-                  ⚠️ You skipped this one
-                </div>
-              )}
+              {ok   && <div className="feedback">✅ Correct!</div>}
+              {bad  && <div className="feedback feedback--wrong">❌ The answer is {p.answer}</div>}
+              {skip && <div className="feedback feedback--skip">⚠️ You skipped this one</div>}
             </div>
           )
         })}
       </div>
 
       {/* Actions */}
-      <div style={S.actions}>
+      <div className="actions">
         {!checked ? (
           <button
-            style={{ ...S.checkBtn, opacity: allAnswered ? 1 : 0.6 }}
+            className="btn-check"
+            style={{ opacity: allAnswered ? 1 : 0.6 }}
             onClick={onCheck}
           >
             Check My Answers ✅
           </button>
         ) : (
-          <div style={S.resultPanel}>
-            <div style={S.resultEmoji}>
-              {score === 10
-                ? '🏆'
-                : score >= 8
-                  ? '🌟'
-                  : score >= 6
-                    ? '👍'
-                    : '📚'}
+          <div className="result-panel">
+            <div className="result-emoji">
+              {score === 10 ? '🏆' : score >= 8 ? '🌟' : score >= 6 ? '👍' : '📚'}
             </div>
-            <div style={S.resultText}>
+            <div className="result-text">
               {score === 10
                 ? `Perfect, ${PLAYER_NAME}! 10 out of 10! 🎉`
                 : score >= 8
@@ -120,8 +97,8 @@ export default function WordTab({
                     ? `Good job, ${PLAYER_NAME}! Keep reading carefully!`
                     : `Keep practicing, ${PLAYER_NAME}! You've got this!`}
             </div>
-            <div style={S.resultScore}>{score} out of 10 correct</div>
-            <button style={S.btn} onClick={onRetry}>
+            <div className="result-score">{score} out of 10 correct</div>
+            <button className="btn" onClick={onRetry}>
               Try Again! 🎲
             </button>
           </div>

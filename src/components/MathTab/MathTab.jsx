@@ -1,11 +1,5 @@
-import {
-  COLORS,
-  typeLabel,
-  typeName,
-  typeAccent,
-  PLAYER_NAME,
-} from '../constants.js'
-import { S } from '../styles.js'
+import { COLORS, typeLabel, typeName, typeAccent, PLAYER_NAME } from '../../constants.js'
+import './MathTab.css'
 
 export default function MathTab({
   mode,
@@ -27,18 +21,10 @@ export default function MathTab({
   return (
     <>
       {/* Mode filter tabs */}
-      <div style={S.tabs}>
+      <div className="tabs">
         <button
-          style={{
-            ...S.tab,
-            ...(mode === 'mixed'
-              ? {
-                  ...S.tabActive,
-                  borderColor: typeAccent.mixed,
-                  color: typeAccent.mixed,
-                }
-              : {}),
-          }}
+          className={`tab${mode === 'mixed' ? ' tab--active' : ''}`}
+          style={mode === 'mixed' ? { borderColor: typeAccent.mixed, color: typeAccent.mixed } : undefined}
           onClick={() => onModeChange('mixed')}
         >
           🎲 Mixed
@@ -46,16 +32,8 @@ export default function MathTab({
         {Object.entries(typeLabel).map(([t, emoji]) => (
           <button
             key={t}
-            style={{
-              ...S.tab,
-              ...(mode === t
-                ? {
-                    ...S.tabActive,
-                    borderColor: typeAccent[t],
-                    color: typeAccent[t],
-                  }
-                : {}),
-            }}
+            className={`tab${mode === t ? ' tab--active' : ''}`}
+            style={mode === t ? { borderColor: typeAccent[t], color: typeAccent[t] } : undefined}
             onClick={() => onModeChange(t)}
           >
             {emoji} {typeName[t]}
@@ -64,7 +42,7 @@ export default function MathTab({
       </div>
 
       {/* Problem grid */}
-      <div style={S.grid}>
+      <div className="grid">
         {problems.map((p, i) => {
           const ans = answers[i] ?? ''
           const ok = checked && parseInt(ans) === p.answer
@@ -75,15 +53,9 @@ export default function MathTab({
           return (
             <div
               key={i}
+              className="card"
               style={{
-                ...S.card,
-                borderColor: ok
-                  ? '#1DD1A1'
-                  : bad
-                    ? '#FF6B6B'
-                    : skip
-                      ? '#FFD700'
-                      : color + '55',
+                borderColor: ok ? '#1DD1A1' : bad ? '#FF6B6B' : skip ? '#FFD700' : color + '55',
                 background: ok
                   ? 'linear-gradient(135deg,#0d2e27,#1a4a3a)'
                   : bad
@@ -91,12 +63,12 @@ export default function MathTab({
                     : 'linear-gradient(135deg,#1a1a2e,#16213e)',
               }}
             >
-              <div style={S.cardNum}>{i + 1}</div>
-              <div style={S.cardType}>{typeLabel[p.type]}</div>
-              <div style={S.problem}>{p.display} =</div>
+              <div className="card-num">{i + 1}</div>
+              <div className="card-type">{typeLabel[p.type]}</div>
+              <div className="problem">{p.display} =</div>
               <input
+                className="input"
                 style={{
-                  ...S.input,
                   borderColor: ok ? '#1DD1A1' : bad ? '#FF6B6B' : color,
                   color: ok ? '#1DD1A1' : bad ? '#FF6B6B' : '#fff',
                 }}
@@ -106,45 +78,30 @@ export default function MathTab({
                 disabled={checked}
                 onChange={e => !checked && onAnswer(i, e.target.value)}
               />
-              {ok && <div style={S.feedback}>✅ Correct!</div>}
-              {bad && (
-                <div style={{ ...S.feedback, color: '#FF6B6B' }}>
-                  ❌ It's {p.answer}
-                </div>
-              )}
-              {skip && (
-                <div style={{ ...S.feedback, color: '#FFD700' }}>
-                  ⚠️ Skipped
-                </div>
-              )}
+              {ok   && <div className="feedback">✅ Correct!</div>}
+              {bad  && <div className="feedback feedback--wrong">❌ It's {p.answer}</div>}
+              {skip && <div className="feedback feedback--skip">⚠️ Skipped</div>}
             </div>
           )
         })}
       </div>
 
       {/* Actions */}
-      <div style={S.actions}>
+      <div className="actions">
         {!checked ? (
           <button
-            style={{ ...S.checkBtn, opacity: allAnswered ? 1 : 0.6 }}
+            className="btn-check"
+            style={{ opacity: allAnswered ? 1 : 0.6 }}
             onClick={onCheck}
           >
             Check My Answers ✅
           </button>
         ) : (
-          <div style={S.resultPanel}>
-            <div style={S.resultEmoji}>
-              {score === 20
-                ? '🏆'
-                : score >= 18
-                  ? '🌟'
-                  : score >= 15
-                    ? '👍'
-                    : score >= 10
-                      ? '💪'
-                      : '📚'}
+          <div className="result-panel">
+            <div className="result-emoji">
+              {score === 20 ? '🏆' : score >= 18 ? '🌟' : score >= 15 ? '👍' : score >= 10 ? '💪' : '📚'}
             </div>
-            <div style={S.resultText}>
+            <div className="result-text">
               {score === 20
                 ? `Perfect score, ${PLAYER_NAME}! You're a math superstar! 🎉`
                 : score >= 18
@@ -153,8 +110,8 @@ export default function MathTab({
                     ? `Great job, ${PLAYER_NAME}! Keep practicing!`
                     : `Good effort, ${PLAYER_NAME}! Keep going!`}
             </div>
-            <div style={S.resultScore}>{score} out of 20 correct</div>
-            <button style={S.btn} onClick={onRetry}>
+            <div className="result-score">{score} out of 20 correct</div>
+            <button className="btn" onClick={onRetry}>
               Try Again! 🎲
             </button>
           </div>

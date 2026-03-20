@@ -1,0 +1,114 @@
+/* App */
+.app {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #0f0c29, #302b63, #24243e);
+  font-family: 'Nunito', sans-serif;
+  color: #fff;
+}
+
+/* Main tabs */
+.main-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.main-tab {
+  background: rgba(255, 255, 255, 0.05);
+  color: #888;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.main-tab--active {
+  background: rgba(255, 255, 255, 0.13);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Shared buttons */
+.btn {
+  background: linear-gradient(135deg, #54a0ff, #5f27cd);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 11px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-print {
+  background: linear-gradient(135deg, #ff9f43, #e55039);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 11px 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-check {
+  background: linear-gradient(135deg, #1dd1a1, #00b894);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 16px 40px;
+  font-size: 1.2rem;
+  font-weight: 900;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Shared input */
+.input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 900;
+  font-family: inherit;
+  text-align: center;
+  outline: none;
+}
+
+/* Shared feedback */
+.feedback           { text-align: center; margin-top: 8px; font-size: 0.85rem; font-weight: 700; color: #1dd1a1; }
+.feedback--wrong    { color: #ff6b6b; }
+.feedback--skip     { color: #ffd700; }
+
+/* Shared results */
+.actions {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.result-panel {
+  background: rgba(255, 255, 255, 0.07);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 32px;
+  display: inline-block;
+  min-width: 300px;
+}
+
+.result-emoji { font-size: 64px; margin-bottom: 12px; }
+.result-text  { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+
+.result-score {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #feca57;
+  margin-bottom: 20px;
+}

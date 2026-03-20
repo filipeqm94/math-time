@@ -1,5 +1,5 @@
-import { PLAYER_NAME } from '../constants.js'
-import { S } from '../styles.js'
+import { PLAYER_NAME } from '../../constants.js'
+import './NameHeader.css'
 
 export default function NameHeader({
   tab,
@@ -11,26 +11,26 @@ export default function NameHeader({
   onNew,
 }) {
   return (
-    <div style={S.header}>
+    <div className="header">
       <div>
-        <h1 style={S.title}>📐 Math Time!</h1>
-        <p style={S.subtitle}>Hey {PLAYER_NAME}! 💪</p>
+        <h1 className="title">📐 Math Time!</h1>
+        <p className="subtitle">Hey {PLAYER_NAME}! 💪</p>
       </div>
-      <div style={S.headerRight}>
+      <div className="header-right">
         {tab === 'math' && checked && (
-          <div style={S.scoreBadge}>
+          <div className="score-badge">
             {score === 20 ? '🏆' : score >= 15 ? '⭐' : '📝'} {score}/20
           </div>
         )}
         {tab === 'word' && wChecked && (
-          <div style={S.scoreBadge}>
+          <div className="score-badge">
             {wScore === 10 ? '🏆' : wScore >= 7 ? '⭐' : '📝'} {wScore}/10
           </div>
         )}
-        <button style={S.printBtn} onClick={onPrint}>
+        <button className="btn-print" onClick={onPrint}>
           🖨️ Print Sheet
         </button>
-        <button style={S.btn} onClick={onNew}>
+        <button className="btn" onClick={onNew}>
           New Problems 🎲
         </button>
       </div>

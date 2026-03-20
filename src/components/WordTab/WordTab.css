@@ -1,0 +1,62 @@
+.word-hint {
+  color: #aaa;
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+.word-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.word-card {
+  border: 2px solid;
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+
+.word-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.word-num {
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: 700;
+}
+
+.word-type-tag {
+  font-size: 0.8rem;
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 3px 10px;
+}
+
+.word-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #f0f0f0;
+  margin-bottom: 14px;
+}
+
+.word-input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.word-answer-label {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.word-input {
+  flex: 1;
+  max-width: 120px;
+}

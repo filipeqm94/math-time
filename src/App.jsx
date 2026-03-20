@@ -1,12 +1,12 @@
 import { useState, useCallback } from "react";
-import { PLAYER_NAME, typeAccent } from "./constants.js";
+import { PLAYER_NAME } from "./constants.js";
 import { generateProblems } from "./generators/mathProblems.js";
 import { generateWordProblems } from "./generators/wordProblems.js";
 import { printProblems, printWordProblems } from "./print/printHelpers.js";
-import { S } from "./styles.js";
-import NameHeader from "./components/NameHeader.jsx";
-import MathTab from "./components/MathTab.jsx";
-import WordTab from "./components/WordTab.jsx";
+import NameHeader from "./components/NameHeader/NameHeader.jsx";
+import MathTab from "./components/MathTab/MathTab.jsx";
+import WordTab from "./components/WordTab/WordTab.jsx";
+import "./App.css";
 
 export default function App() {
   const [tab, setTab]             = useState("math");
@@ -36,7 +36,7 @@ export default function App() {
   const wScore = wordProbs.reduce((a, p, i) => a + (parseInt(wAnswers[i]) === p.answer ? 1 : 0), 0);
 
   return (
-    <div style={S.app} className="app">
+    <div className="app">
       <NameHeader
         tab={tab}
         checked={checked}
@@ -50,16 +50,15 @@ export default function App() {
         onNew={() => tab === "math" ? generate(mode) : generateWord()}
       />
 
-      {/* Main tabs */}
-      <div style={S.mainTabs}>
+      <div className="main-tabs">
         <button
-          style={{ ...S.mainTab, ...(tab === "math" ? S.mainTabActive : {}) }}
+          className={`main-tab${tab === "math" ? " main-tab--active" : ""}`}
           onClick={() => setTab("math")}
         >
           🔢 Math Equations
         </button>
         <button
-          style={{ ...S.mainTab, ...(tab === "word" ? S.mainTabActive : {}) }}
+          className={`main-tab${tab === "word" ? " main-tab--active" : ""}`}
           onClick={() => setTab("word")}
         >
           📖 Word Problems
