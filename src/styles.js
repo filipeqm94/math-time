@@ -2,7 +2,7 @@ export const S = {
   app: {
     minHeight: '100vh',
     background: 'linear-gradient(160deg,#0f0c29,#302b63,#24243e)',
-    fontFamily: "'Nunito','Comic Sans MS',cursive,sans-serif",
+    fontFamily: "'Nunito', sans-serif",
     color: '#fff',
   },
 
