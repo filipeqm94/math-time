@@ -1,4 +1,4 @@
-import { COLORS, typeLabel, typeName, typeAccent, PLAYER_NAME } from '../../constants.js'
+import { COLORS, typeLabel, typeName, typeAccent, STUDENT_NAME } from '../../constants.js'
 import './MathTab.css'
 
 export default function MathTab({
@@ -103,12 +103,12 @@ export default function MathTab({
             </div>
             <div className="result-text">
               {score === 20
-                ? `Perfect score, ${PLAYER_NAME}! You're a math superstar! 🎉`
+                ? `Perfect score, ${STUDENT_NAME}! You're a math superstar! 🎉`
                 : score >= 18
-                  ? `Amazing, ${PLAYER_NAME}! So close to perfect!`
+                  ? `Amazing, ${STUDENT_NAME}! So close to perfect!`
                   : score >= 15
-                    ? `Great job, ${PLAYER_NAME}! Keep practicing!`
-                    : `Good effort, ${PLAYER_NAME}! Keep going!`}
+                    ? `Great job, ${STUDENT_NAME}! Keep practicing!`
+                    : `Good effort, ${STUDENT_NAME}! Keep going!`}
             </div>
             <div className="result-score">{score} out of 20 correct</div>
             <button className="btn" onClick={onRetry}>

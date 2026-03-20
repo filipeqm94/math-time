@@ -1,4 +1,4 @@
-import { PLAYER_NAME } from '../../constants.js'
+import { STUDENT_NAME } from '../../constants.js'
 import './NameHeader.css'
 
 export default function NameHeader({
@@ -14,7 +14,7 @@ export default function NameHeader({
     <div className="header">
       <div>
         <h1 className="title">📐 Math Time!</h1>
-        <p className="subtitle">Hey {PLAYER_NAME}! 💪</p>
+        <p className="subtitle">Hey {STUDENT_NAME}! 💪</p>
       </div>
       <div className="header-right">
         {tab === 'math' && checked && (

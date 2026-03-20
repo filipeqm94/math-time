@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { PLAYER_NAME } from "./constants.js";
+import { STUDENT_NAME } from "./constants.js";
 import { generateProblems } from "./generators/mathProblems.js";
 import { generateWordProblems } from "./generators/wordProblems.js";
 import { printProblems, printWordProblems } from "./print/printHelpers.js";
@@ -44,8 +44,8 @@ export default function App() {
         score={score}
         wScore={wScore}
         onPrint={() => tab === "math"
-          ? printProblems(problems, mode, PLAYER_NAME)
-          : printWordProblems(wordProbs, PLAYER_NAME)
+          ? printProblems(problems, mode, STUDENT_NAME)
+          : printWordProblems(wordProbs, STUDENT_NAME)
         }
         onNew={() => tab === "math" ? generate(mode) : generateWord()}
       />

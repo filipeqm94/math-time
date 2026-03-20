@@ -16,4 +16,4 @@ export const typeAccent = {
   div: "#1DD1A1", frac: "#FF9FF3", mixed: "#FF9F43",
 };
 
-export const PLAYER_NAME = "Rebecca";
+export const STUDENT_NAME = "Rebecca";

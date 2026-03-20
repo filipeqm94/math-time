@@ -1,4 +1,4 @@
-import { COLORS, typeLabel, typeName, PLAYER_NAME } from '../../constants.js'
+import { COLORS, typeLabel, typeName, STUDENT_NAME } from '../../constants.js'
 import './WordTab.css'
 
 export default function WordTab({
@@ -90,12 +90,12 @@ export default function WordTab({
             </div>
             <div className="result-text">
               {score === 10
-                ? `Perfect, ${PLAYER_NAME}! 10 out of 10! 🎉`
+                ? `Perfect, ${STUDENT_NAME}! 10 out of 10! 🎉`
                 : score >= 8
-                  ? `Excellent reading, ${PLAYER_NAME}!`
+                  ? `Excellent reading, ${STUDENT_NAME}!`
                   : score >= 6
-                    ? `Good job, ${PLAYER_NAME}! Keep reading carefully!`
-                    : `Keep practicing, ${PLAYER_NAME}! You've got this!`}
+                    ? `Good job, ${STUDENT_NAME}! Keep reading carefully!`
+                    : `Keep practicing, ${STUDENT_NAME}! You've got this!`}
             </div>
             <div className="result-score">{score} out of 10 correct</div>
             <button className="btn" onClick={onRetry}>
