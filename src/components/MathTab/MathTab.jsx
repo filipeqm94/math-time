@@ -1,18 +1,14 @@
 import { COLORS, typeLabel, typeName, typeAccent, STUDENT_NAME } from '../../constants.js'
+import FractionTab from '../FractionTab/FractionTab.jsx'
 import './MathTab.css'
 
 export default function MathTab({
-  mode,
-  problems,
-  answers,
-  checked,
-  submitted,
-  firstCorrect,
-  onModeChange,
-  onAnswer,
-  onCheck,
-  onSubmit,
-  onEditAnswers,
+  mode, fracMode,
+  problems, answers, checked, submitted, firstCorrect,
+  nlProbs, nlAnswers, nlChecked, nlSubmitted, nlFirstCorrect,
+  onModeChange, onFracModeChange,
+  onAnswer, onCheck, onSubmit, onEditAnswers,
+  onNlAnswer, onNlCheck, onNlSubmit, onNlEditAnswers,
 }) {
   const total = problems.length
   const allAnswered = problems.every((_, i) => (answers[i] ?? '') !== '')
@@ -21,6 +17,8 @@ export default function MathTab({
     (p, i) => !firstCorrect.includes(i) && parseInt(answers[i]) === p.answer
   ).length
   const finalScore = firstCorrect.length + corrections * 0.5
+
+  const isNL = mode === 'frac' && fracMode === 'numberlines'
 
   return (
     <>
@@ -45,95 +43,131 @@ export default function MathTab({
         ))}
       </div>
 
-      {/* Problem grid */}
-      <div className="grid">
-        {problems.map((p, i) => {
-          const ans = answers[i] ?? ''
-          const isFirstCorrect = firstCorrect.includes(i)
-          const ok = checked && ans !== '' && parseInt(ans) === p.answer
-          const bad = checked && ans !== '' && parseInt(ans) !== p.answer
-          const skip = checked && ans === ''
-          const color = COLORS[i % COLORS.length]
-
-          return (
-            <div
-              key={i}
-              className="card"
-              style={{
-                borderColor: ok ? '#1DD1A1' : bad ? '#FF6B6B' : skip ? '#FFD700' : color + '55',
-                background: ok
-                  ? 'linear-gradient(135deg,#0d2e27,#1a4a3a)'
-                  : bad
-                    ? 'linear-gradient(135deg,#2e0d0d,#4a1a1a)'
-                    : 'linear-gradient(135deg,#1a1a2e,#16213e)',
-              }}
-            >
-              <div className="card-num">{i + 1}</div>
-              <div className="card-type">{typeLabel[p.type]}</div>
-              <div className="problem">{p.display} =</div>
-              <input
-                className="input"
-                style={{
-                  borderColor: ok ? '#1DD1A1' : bad ? '#FF6B6B' : color,
-                  color: ok ? '#1DD1A1' : bad ? '#FF6B6B' : '#fff',
-                }}
-                type='number'
-                value={ans}
-                placeholder='?'
-                disabled={submitted || isFirstCorrect}
-                onChange={e => onAnswer(i, e.target.value)}
-              />
-              {ok && isFirstCorrect  && <div className="feedback">✅ Correct!</div>}
-              {ok && !isFirstCorrect && checked && <div className="feedback feedback--correction">✅ +0.5 correction</div>}
-              {bad  && <div className="feedback feedback--wrong">❌ It's {p.answer}</div>}
-              {skip && <div className="feedback feedback--skip">⚠️ Skipped</div>}
-            </div>
-          )
-        })}
-      </div>
-
-      {/* Actions */}
-      <div className="actions">
-        {!checked ? (
+      {/* Fractions sub-tabs */}
+      {mode === 'frac' && (
+        <div className="sub-tabs">
           <button
-            className="btn-check"
-            style={{ opacity: allAnswered ? 1 : 0.6 }}
-            onClick={onCheck}
+            className={`sub-tab${fracMode === 'cards' ? ' sub-tab--active' : ''}`}
+            onClick={() => onFracModeChange('cards')}
           >
-            Check My Answers ✅
+            🃏 Fraction Cards
           </button>
-        ) : !submitted ? (
-          <div className="result-panel">
-            <div className="result-emoji">
-              {firstCorrect.length === total ? '🏆' : firstCorrect.length >= total * 0.75 ? '👍' : '📚'}
-            </div>
-            <div className="result-text">
-              {firstCorrect.length === total
-                ? `Perfect first try, ${STUDENT_NAME}! 🎉`
-                : `${firstCorrect.length}/${total} on first try — fix the ones in red above!`}
-            </div>
-            <div className="result-score">{firstCorrect.length}/{total} first attempt</div>
-            <button className="btn-check" style={{ marginBottom: '10px' }} onClick={onSubmit}>Submit Results 📬</button>
-            <br />
-            <button className="btn" onClick={onEditAnswers}>✏️ Fix a typo</button>
+          <button
+            className={`sub-tab${fracMode === 'numberlines' ? ' sub-tab--active' : ''}`}
+            onClick={() => onFracModeChange('numberlines')}
+          >
+            📏 Number Lines
+          </button>
+        </div>
+      )}
+
+      {/* Number Lines view */}
+      {isNL && (
+        <FractionTab
+          problems={nlProbs}
+          answers={nlAnswers}
+          checked={nlChecked}
+          submitted={nlSubmitted}
+          firstCorrect={nlFirstCorrect}
+          onAnswer={onNlAnswer}
+          onCheck={onNlCheck}
+          onSubmit={onNlSubmit}
+          onEditAnswers={onNlEditAnswers}
+        />
+      )}
+
+      {/* Fraction Cards / other modes grid */}
+      {!isNL && (
+        <>
+          <div className="grid">
+            {problems.map((p, i) => {
+              const ans = answers[i] ?? ''
+              const isFirstCorrect = firstCorrect.includes(i)
+              const ok = checked && ans !== '' && parseInt(ans) === p.answer
+              const bad = checked && ans !== '' && parseInt(ans) !== p.answer
+              const skip = checked && ans === ''
+              const color = COLORS[i % COLORS.length]
+
+              return (
+                <div
+                  key={i}
+                  className="card"
+                  style={{
+                    borderColor: ok ? '#1DD1A1' : bad ? '#FF6B6B' : skip ? '#FFD700' : color + '55',
+                    background: ok
+                      ? 'linear-gradient(135deg,#0d2e27,#1a4a3a)'
+                      : bad
+                        ? 'linear-gradient(135deg,#2e0d0d,#4a1a1a)'
+                        : 'linear-gradient(135deg,#1a1a2e,#16213e)',
+                  }}
+                >
+                  <div className="card-num">{i + 1}</div>
+                  <div className="card-type">{typeLabel[p.type]}</div>
+                  <div className="problem">{p.display} =</div>
+                  <input
+                    className="input"
+                    style={{
+                      borderColor: ok ? '#1DD1A1' : bad ? '#FF6B6B' : color,
+                      color: ok ? '#1DD1A1' : bad ? '#FF6B6B' : '#fff',
+                    }}
+                    type='number'
+                    value={ans}
+                    placeholder='?'
+                    disabled={submitted || isFirstCorrect}
+                    onChange={e => onAnswer(i, e.target.value)}
+                  />
+                  {ok && isFirstCorrect  && <div className="feedback">✅ Correct!</div>}
+                  {ok && !isFirstCorrect && checked && <div className="feedback feedback--correction">✅ +0.5 correction</div>}
+                  {bad  && <div className="feedback feedback--wrong">❌ It's {p.answer}</div>}
+                  {skip && <div className="feedback feedback--skip">⚠️ Skipped</div>}
+                </div>
+              )
+            })}
           </div>
-        ) : (
-          <div className="result-panel">
-            <div className="result-emoji">
-              {finalScore === total ? '🏆' : finalScore >= total * 0.9 ? '🌟' : finalScore >= total * 0.75 ? '👍' : '💪'}
-            </div>
-            <div className="result-text">
-              {finalScore === total
-                ? `Perfect score, ${STUDENT_NAME}! You're a math superstar! 🎉`
-                : `Great effort, ${STUDENT_NAME}!`}
-            </div>
-            <div className="result-score">{finalScore}/{total} points</div>
-            <div className="result-breakdown">
-              {firstCorrect.length} × 1pt + {corrections} × 0.5pt
-            </div>
+
+          <div className="actions">
+            {!checked ? (
+              <button
+                className="btn-check"
+                style={{ opacity: allAnswered ? 1 : 0.6 }}
+                onClick={onCheck}
+              >
+                Check My Answers ✅
+              </button>
+            ) : !submitted ? (
+              <div className="result-panel">
+                <div className="result-emoji">
+                  {firstCorrect.length === total ? '🏆' : firstCorrect.length >= total * 0.75 ? '👍' : '📚'}
+                </div>
+                <div className="result-text">
+                  {firstCorrect.length === total
+                    ? `Perfect first try, ${STUDENT_NAME}! 🎉`
+                    : `${firstCorrect.length}/${total} on first try — fix the ones in red above!`}
+                </div>
+                <div className="result-score">{firstCorrect.length}/{total} first attempt</div>
+                <button className="btn-check" style={{ marginBottom: '10px' }} onClick={onSubmit}>Submit Results 📬</button>
+                <br />
+                <button className="btn" onClick={onEditAnswers}>✏️ Fix a typo</button>
+              </div>
+            ) : (
+              <div className="result-panel">
+                <div className="result-emoji">
+                  {finalScore === total ? '🏆' : finalScore >= total * 0.9 ? '🌟' : finalScore >= total * 0.75 ? '👍' : '💪'}
+                </div>
+                <div className="result-text">
+                  {finalScore === total
+                    ? `Perfect score, ${STUDENT_NAME}! You're a math superstar! 🎉`
+                    : `Great effort, ${STUDENT_NAME}!`}
+                </div>
+                <div className="result-score">{finalScore}/{total} points</div>
+                <div className="result-breakdown">
+                  {firstCorrect.length} × 1pt + {corrections} × 0.5pt
+                </div>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </>
+      )}
     </>
   )
 }

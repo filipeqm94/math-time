@@ -95,6 +95,60 @@ export function printProblems(problems, mode, playerName) {
   openAndPrint(buildPrintHTML(title, date, playerName, body, 20, false))
 }
 
+export function printNumberLines(problems, playerName) {
+  const date = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+
+  const body = problems.map((p, i) => {
+    const { denominator, range } = p
+    const totalTicks = denominator * range + 1
+    const ticks = Array.from({ length: totalTicks }, (_, pos) => {
+      const isStart = pos === 0
+      const isWholeNumber = pos % denominator === 0
+      const wholeNum = pos / denominator
+      return `
+        <div class="nl-tick">
+          ${isWholeNumber ? `<div class="nl-whole">${wholeNum}</div>` : '<div class="nl-whole-empty"></div>'}
+          <div class="nl-tick-mark"></div>
+          <div class="nl-frac">
+            ${isStart
+              ? `<span class="nl-given">0</span>`
+              : `<div class="nl-stacked"><span>&nbsp;&nbsp;&nbsp;</span><div class="nl-line"></div><span>&nbsp;&nbsp;&nbsp;</span></div>`}
+          </div>
+        </div>`
+    }).join('')
+
+    return `
+    <div class="nl-card">
+      <div class="nl-header">#${i + 1} &nbsp; 0 → ${range}</div>
+      <div class="nl-track">${ticks}</div>
+    </div>`
+  }).join('')
+
+  const extraStyles = `
+    .nl-card { margin-bottom: 20px; page-break-inside: avoid; }
+    .nl-header { font-size: 9pt; color: #888; margin-bottom: 6px; font-weight: bold; }
+    .nl-track { display: flex; align-items: flex-start; position: relative; padding-top: 22px; width: fit-content; gap: 10px; }
+    .nl-track::before { content: ''; position: absolute; top: 22px; left: 0; right: 0; height: 2px; background: #333; }
+    .nl-tick { display: flex; flex-direction: column; align-items: center; position: relative; }
+    .nl-whole { position: absolute; top: -18px; font-size: 9pt; font-weight: 900; color: #333; }
+    .nl-whole-empty { position: absolute; top: -18px; height: 12px; }
+    .nl-tick-mark { width: 1.5px; height: 10px; background: #333; }
+    .nl-frac { margin-top: 6px; }
+    .nl-stacked { display: flex; flex-direction: column; align-items: center; font-size: 10pt; font-weight: bold; min-width: 24px; }
+    .nl-line { width: 100%; height: 1.5px; background: #333; margin: 1px 0; }
+    .nl-given { color: #888; }
+  `
+
+  const html = buildPrintHTML('Fractions — Number Lines', date, playerName, body, problems.length, false)
+    .replace('</style>', extraStyles + '</style>')
+
+  openAndPrint(html)
+}
+
 export function printWordProblems(problems, playerName) {
   const date = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
