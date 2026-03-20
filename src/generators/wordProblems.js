@@ -1,4 +1,7 @@
-const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+import { getDailyRandom } from './seededRandom.js';
+
+let _rng = getDailyRandom();
+const rand = (min, max) => Math.floor(_rng() * (max - min + 1)) + min;
 const pick = (arr) => arr[rand(0, arr.length - 1)];
 
 const NAMES = [
@@ -66,5 +69,6 @@ export function makeWordProblem() {
 }
 
 export function generateWordProblems() {
+  _rng = getDailyRandom();
   return Array.from({ length: 10 }, makeWordProblem);
 }

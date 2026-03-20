@@ -1,4 +1,7 @@
-const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+import { getDailyRandom } from './seededRandom.js';
+
+let _rng = getDailyRandom();
+const rand = (min, max) => Math.floor(_rng() * (max - min + 1)) + min;
 
 export function makeProblem(type) {
   if (type === "add") {
@@ -25,6 +28,7 @@ export function makeProblem(type) {
 }
 
 export function generateProblems(mode = "mixed") {
+  _rng = getDailyRandom();
   if (mode !== "mixed") {
     return Array.from({ length: 20 }, () => makeProblem(mode));
   }
