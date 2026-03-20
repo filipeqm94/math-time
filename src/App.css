@@ -84,9 +84,10 @@
 }
 
 /* Shared feedback */
-.feedback           { text-align: center; margin-top: 8px; font-size: 0.85rem; font-weight: 700; color: #1dd1a1; }
-.feedback--wrong    { color: #ff6b6b; }
-.feedback--skip     { color: #ffd700; }
+.feedback             { text-align: center; margin-top: 8px; font-size: 0.85rem; font-weight: 700; color: #1dd1a1; }
+.feedback--wrong      { color: #ff6b6b; }
+.feedback--skip       { color: #ffd700; }
+.feedback--correction { color: #54a0ff; }
 
 /* Shared results */
 .actions {
@@ -105,6 +106,12 @@
 
 .result-emoji { font-size: 64px; margin-bottom: 12px; }
 .result-text  { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+
+.result-breakdown {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 8px;
+}
 
 .result-score {
   font-size: 1.5rem;

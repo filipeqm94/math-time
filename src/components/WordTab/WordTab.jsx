@@ -5,26 +5,30 @@ export default function WordTab({
   problems,
   answers,
   checked,
+  submitted,
+  firstCorrect,
   onAnswer,
   onCheck,
-  onRetry,
+  onSubmit,
 }) {
-  const score = problems.reduce(
-    (a, p, i) => a + (parseInt(answers[i]) === p.answer ? 1 : 0),
-    0,
-  )
-  const allAnswered =
-    Object.keys(answers).filter(k => answers[k] !== '').length === 10
+  const total = problems.length
+  const allAnswered = problems.every((_, i) => (answers[i] ?? '') !== '')
+
+  const corrections = problems.filter(
+    (p, i) => !firstCorrect.includes(i) && parseInt(answers[i]) === p.answer
+  ).length
+  const finalScore = firstCorrect.length + corrections * 0.5
 
   return (
     <>
       <p className="word-hint">
-        Read each problem carefully, then write your answer. 10 problems total.
+        Read each problem carefully, then write your answer. {total} problems total.
       </p>
 
       <div className="word-grid">
         {problems.map((p, i) => {
           const ans = answers[i] ?? ''
+          const isFirstCorrect = firstCorrect.includes(i)
           const ok = ans !== '' && parseInt(ans) === p.answer
           const bad = checked && ans !== '' && parseInt(ans) !== p.answer
           const skip = checked && ans === ''
@@ -61,11 +65,12 @@ export default function WordTab({
                   type='number'
                   value={ans}
                   placeholder='?'
-                  disabled={checked || ok}
-                  onChange={e => !checked && onAnswer(i, e.target.value)}
+                  disabled={submitted || isFirstCorrect}
+                  onChange={e => onAnswer(i, e.target.value)}
                 />
               </div>
-              {ok   && <div className="feedback">✅ Correct!</div>}
+              {ok && isFirstCorrect  && <div className="feedback">✅ Correct!</div>}
+              {ok && !isFirstCorrect && checked && <div className="feedback feedback--correction">✅ +0.5 correction</div>}
               {bad  && <div className="feedback feedback--wrong">❌ The answer is {p.answer}</div>}
               {skip && <div className="feedback feedback--skip">⚠️ You skipped this one</div>}
             </div>
@@ -83,24 +88,33 @@ export default function WordTab({
           >
             Check My Answers ✅
           </button>
+        ) : !submitted ? (
+          <div className="result-panel">
+            <div className="result-emoji">
+              {firstCorrect.length === total ? '🏆' : firstCorrect.length >= total * 0.75 ? '👍' : '📚'}
+            </div>
+            <div className="result-text">
+              {firstCorrect.length === total
+                ? `Perfect first try, ${STUDENT_NAME}! 🎉`
+                : `${firstCorrect.length}/${total} on first try — fix the ones in red above!`}
+            </div>
+            <div className="result-score">{firstCorrect.length}/{total} first attempt</div>
+            <button className="btn-check" onClick={onSubmit}>Submit Results 📬</button>
+          </div>
         ) : (
           <div className="result-panel">
             <div className="result-emoji">
-              {score === 10 ? '🏆' : score >= 8 ? '🌟' : score >= 6 ? '👍' : '📚'}
+              {finalScore === total ? '🏆' : finalScore >= total * 0.9 ? '🌟' : finalScore >= total * 0.75 ? '👍' : '💪'}
             </div>
             <div className="result-text">
-              {score === 10
-                ? `Perfect, ${STUDENT_NAME}! 10 out of 10! 🎉`
-                : score >= 8
-                  ? `Excellent reading, ${STUDENT_NAME}!`
-                  : score >= 6
-                    ? `Good job, ${STUDENT_NAME}! Keep reading carefully!`
-                    : `Keep practicing, ${STUDENT_NAME}! You've got this!`}
+              {finalScore === total
+                ? `Perfect score, ${STUDENT_NAME}! 🎉`
+                : `Great effort, ${STUDENT_NAME}!`}
             </div>
-            <div className="result-score">{score} out of 10 correct</div>
-            <button className="btn" onClick={onRetry}>
-              Try Again! 🎲
-            </button>
+            <div className="result-score">{finalScore}/{total} points</div>
+            <div className="result-breakdown">
+              {firstCorrect.length} × 1pt + {corrections} × 0.5pt
+            </div>
           </div>
         )}
       </div>

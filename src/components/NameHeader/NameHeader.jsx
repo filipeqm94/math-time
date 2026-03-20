@@ -3,14 +3,27 @@ import './NameHeader.css'
 
 export default function NameHeader({
   tab,
-  checked,
-  wChecked,
-  score,
-  wScore,
-  total,
+  submitted,
+  wSubmitted,
+  firstCorrect,
+  wFirstCorrect,
+  problems,
+  wordProbs,
+  answers,
+  wAnswers,
+  canNew,
   onPrint,
   onNew,
 }) {
+  const total  = problems?.length ?? 20
+  const wTotal = wordProbs?.length ?? 10
+
+  const corrections  = problems?.filter((p, i) => !firstCorrect.includes(i) && parseInt(answers[i])  === p.answer).length ?? 0
+  const wCorrections = wordProbs?.filter((p, i) => !wFirstCorrect.includes(i) && parseInt(wAnswers[i]) === p.answer).length ?? 0
+
+  const finalScore  = firstCorrect.length  + corrections  * 0.5
+  const wFinalScore = wFirstCorrect.length + wCorrections * 0.5
+
   return (
     <div className="header">
       <div>
@@ -18,20 +31,25 @@ export default function NameHeader({
         <p className="subtitle">Hey {STUDENT_NAME}! 💪</p>
       </div>
       <div className="header-right">
-        {tab === 'math' && checked && (
+        {tab === 'math' && submitted && (
           <div className="score-badge">
-            {score === total ? '🏆' : score >= total * 0.75 ? '⭐' : '📝'} {score}/{total}
+            {finalScore === total ? '🏆' : finalScore >= total * 0.75 ? '⭐' : '📝'} {finalScore}/{total}
           </div>
         )}
-        {tab === 'word' && wChecked && (
+        {tab === 'word' && wSubmitted && (
           <div className="score-badge">
-            {wScore === 10 ? '🏆' : wScore >= 7 ? '⭐' : '📝'} {wScore}/10
+            {wFinalScore === wTotal ? '🏆' : wFinalScore >= wTotal * 0.75 ? '⭐' : '📝'} {wFinalScore}/{wTotal}
           </div>
         )}
         <button className="btn-print" onClick={onPrint}>
           🖨️ Print Sheet
         </button>
-        <button className="btn" onClick={onNew}>
+        <button
+          className="btn"
+          onClick={onNew}
+          disabled={!canNew}
+          style={{ opacity: canNew ? 1 : 0.4, cursor: canNew ? 'pointer' : 'not-allowed' }}
+        >
           New Problems 🎲
         </button>
       </div>

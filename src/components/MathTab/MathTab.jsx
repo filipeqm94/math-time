@@ -6,18 +6,20 @@ export default function MathTab({
   problems,
   answers,
   checked,
+  submitted,
+  firstCorrect,
   onModeChange,
   onAnswer,
   onCheck,
-  onRetry,
+  onSubmit,
 }) {
-  const score = problems.reduce(
-    (a, p, i) => a + (parseInt(answers[i]) === p.answer ? 1 : 0),
-    0,
-  )
   const total = problems.length
-  const allAnswered =
-    Object.keys(answers).filter(k => answers[k] !== '').length === total
+  const allAnswered = problems.every((_, i) => (answers[i] ?? '') !== '')
+
+  const corrections = problems.filter(
+    (p, i) => !firstCorrect.includes(i) && parseInt(answers[i]) === p.answer
+  ).length
+  const finalScore = firstCorrect.length + corrections * 0.5
 
   return (
     <>
@@ -46,6 +48,7 @@ export default function MathTab({
       <div className="grid">
         {problems.map((p, i) => {
           const ans = answers[i] ?? ''
+          const isFirstCorrect = firstCorrect.includes(i)
           const ok = ans !== '' && parseInt(ans) === p.answer
           const bad = checked && ans !== '' && parseInt(ans) !== p.answer
           const skip = checked && ans === ''
@@ -76,10 +79,11 @@ export default function MathTab({
                 type='number'
                 value={ans}
                 placeholder='?'
-                disabled={checked || ok}
-                onChange={e => !checked && onAnswer(i, e.target.value)}
+                disabled={submitted || isFirstCorrect}
+                onChange={e => onAnswer(i, e.target.value)}
               />
-              {ok   && <div className="feedback">✅ Correct!</div>}
+              {ok && isFirstCorrect  && <div className="feedback">✅ Correct!</div>}
+              {ok && !isFirstCorrect && checked && <div className="feedback feedback--correction">✅ +0.5 correction</div>}
               {bad  && <div className="feedback feedback--wrong">❌ It's {p.answer}</div>}
               {skip && <div className="feedback feedback--skip">⚠️ Skipped</div>}
             </div>
@@ -97,24 +101,40 @@ export default function MathTab({
           >
             Check My Answers ✅
           </button>
+        ) : !submitted ? (
+          <div className="result-panel">
+            <div className="result-emoji">
+              {firstCorrect.length === total ? '🏆' : firstCorrect.length >= total * 0.75 ? '👍' : '📚'}
+            </div>
+            <div className="result-text">
+              {firstCorrect.length === total
+                ? `Perfect first try, ${STUDENT_NAME}! 🎉`
+                : `${firstCorrect.length}/${total} on first try — fix the ones in red above!`}
+            </div>
+            <div className="result-score">{firstCorrect.length}/{total} first attempt</div>
+            {firstCorrect.length < total && (
+              <button className="btn-check" style={{ marginBottom: '12px' }} onClick={onSubmit}>
+                Submit Results 📬
+              </button>
+            )}
+            {firstCorrect.length === total && (
+              <button className="btn-check" onClick={onSubmit}>Submit Results 📬</button>
+            )}
+          </div>
         ) : (
           <div className="result-panel">
             <div className="result-emoji">
-              {score === total ? '🏆' : score >= total * 0.9 ? '🌟' : score >= total * 0.75 ? '👍' : score >= total * 0.5 ? '💪' : '📚'}
+              {finalScore === total ? '🏆' : finalScore >= total * 0.9 ? '🌟' : finalScore >= total * 0.75 ? '👍' : '💪'}
             </div>
             <div className="result-text">
-              {score === total
+              {finalScore === total
                 ? `Perfect score, ${STUDENT_NAME}! You're a math superstar! 🎉`
-                : score >= total * 0.9
-                  ? `Amazing, ${STUDENT_NAME}! So close to perfect!`
-                  : score >= total * 0.75
-                    ? `Great job, ${STUDENT_NAME}! Keep practicing!`
-                    : `Good effort, ${STUDENT_NAME}! Keep going!`}
+                : `Great effort, ${STUDENT_NAME}!`}
             </div>
-            <div className="result-score">{score} out of {total} correct</div>
-            <button className="btn" onClick={onRetry}>
-              Try Again! 🎲
-            </button>
+            <div className="result-score">{finalScore}/{total} points</div>
+            <div className="result-breakdown">
+              {firstCorrect.length} × 1pt + {corrections} × 0.5pt
+            </div>
           </div>
         )}
       </div>
