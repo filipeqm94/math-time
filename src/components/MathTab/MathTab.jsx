@@ -46,7 +46,7 @@ export default function MathTab({
       <div className="grid">
         {problems.map((p, i) => {
           const ans = answers[i] ?? ''
-          const ok = checked && parseInt(ans) === p.answer
+          const ok = ans !== '' && parseInt(ans) === p.answer
           const bad = checked && ans !== '' && parseInt(ans) !== p.answer
           const skip = checked && ans === ''
           const color = COLORS[i % COLORS.length]
@@ -76,7 +76,7 @@ export default function MathTab({
                 type='number'
                 value={ans}
                 placeholder='?'
-                disabled={checked}
+                disabled={checked || ok}
                 onChange={e => !checked && onAnswer(i, e.target.value)}
               />
               {ok   && <div className="feedback">✅ Correct!</div>}

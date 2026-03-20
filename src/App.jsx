@@ -30,6 +30,24 @@ export default function App() {
     setWChecked(false);
   }, []);
 
+  const retryMath = useCallback((probs, ans) => {
+    setAnswers(
+      Object.fromEntries(
+        Object.entries(ans).filter(([i, v]) => parseInt(v) === probs[i].answer)
+      )
+    );
+    setChecked(false);
+  }, []);
+
+  const retryWord = useCallback((probs, ans) => {
+    setWAnswers(
+      Object.fromEntries(
+        Object.entries(ans).filter(([i, v]) => parseInt(v) === probs[i].answer)
+      )
+    );
+    setWChecked(false);
+  }, []);
+
   const handleModeChange = (m) => { setMode(m); generate(m); };
 
   const score  = problems.reduce((a, p, i) => a + (parseInt(answers[i])  === p.answer ? 1 : 0), 0);
@@ -75,7 +93,7 @@ export default function App() {
           onModeChange={handleModeChange}
           onAnswer={(i, val) => setAnswers((prev) => ({ ...prev, [i]: val }))}
           onCheck={() => setChecked(true)}
-          onRetry={() => generate(mode)}
+          onRetry={() => retryMath(problems, answers)}
         />
       )}
 
@@ -86,7 +104,7 @@ export default function App() {
           checked={wChecked}
           onAnswer={(i, val) => setWAnswers((prev) => ({ ...prev, [i]: val }))}
           onCheck={() => setWChecked(true)}
-          onRetry={generateWord}
+          onRetry={() => retryWord(wordProbs, wAnswers)}
         />
       )}
     </div>
