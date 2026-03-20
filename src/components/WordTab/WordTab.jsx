@@ -100,10 +100,9 @@ export default function WordTab({
                 : `${firstCorrect.length}/${total} on first try — fix the ones in red above!`}
             </div>
             <div className="result-score">{firstCorrect.length}/{total} first attempt</div>
-            <button className="btn-check" onClick={onSubmit}>Submit Results 📬</button>
-            <button className="btn" style={{ marginTop: '10px' }} onClick={onEditAnswers}>
-              ✏️ Fix a typo
-            </button>
+            <button className="btn-check" style={{ marginBottom: '10px' }} onClick={onSubmit}>Submit Results 📬</button>
+            <br />
+            <button className="btn" onClick={onEditAnswers}>✏️ Fix a typo</button>
           </div>
         ) : (
           <div className="result-panel">
