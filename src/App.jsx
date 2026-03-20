@@ -115,7 +115,7 @@ export default function App() {
           submitted={submitted}
           firstCorrect={firstCorrect}
           onModeChange={handleModeChange}
-          onAnswer={(i, val) => !checked && setAnswers((prev) => ({ ...prev, [i]: val }))}
+          onAnswer={(i, val) => setAnswers((prev) => ({ ...prev, [i]: val }))}
           onCheck={() => handleCheck(problems, answers)}
           onSubmit={() => handleSubmit(problems, answers, firstCorrect, "math", mode)}
         />
@@ -128,7 +128,7 @@ export default function App() {
           checked={wChecked}
           submitted={wSubmitted}
           firstCorrect={wFirstCorrect}
-          onAnswer={(i, val) => !wChecked && setWAnswers((prev) => ({ ...prev, [i]: val }))}
+          onAnswer={(i, val) => setWAnswers((prev) => ({ ...prev, [i]: val }))}
           onCheck={() => handleWCheck(wordProbs, wAnswers)}
           onSubmit={() => handleWSubmit(wordProbs, wAnswers, wFirstCorrect)}
         />

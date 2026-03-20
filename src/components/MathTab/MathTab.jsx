@@ -49,7 +49,7 @@ export default function MathTab({
         {problems.map((p, i) => {
           const ans = answers[i] ?? ''
           const isFirstCorrect = firstCorrect.includes(i)
-          const ok = ans !== '' && parseInt(ans) === p.answer
+          const ok = checked && ans !== '' && parseInt(ans) === p.answer
           const bad = checked && ans !== '' && parseInt(ans) !== p.answer
           const skip = checked && ans === ''
           const color = COLORS[i % COLORS.length]
