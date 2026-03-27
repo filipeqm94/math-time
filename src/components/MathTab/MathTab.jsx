@@ -1,20 +1,42 @@
-import { COLORS, typeLabel, typeName, typeAccent, STUDENT_NAME } from '../../constants.js'
+import {
+  COLORS,
+  typeLabel,
+  typeName,
+  typeAccent,
+  STUDENT_NAME,
+} from '../../constants.js'
 import FractionTab from '../FractionTab/FractionTab.jsx'
 import './MathTab.css'
 
 export default function MathTab({
-  mode, fracMode,
-  problems, answers, checked, submitted, firstCorrect,
-  nlProbs, nlAnswers, nlChecked, nlSubmitted, nlFirstCorrect,
-  onModeChange, onFracModeChange,
-  onAnswer, onCheck, onSubmit, onEditAnswers,
-  onNlAnswer, onNlCheck, onNlSubmit, onNlEditAnswers,
+  mode,
+  fracMode,
+  problems,
+  answers,
+  checked,
+  submitted,
+  firstCorrect,
+  nlProbs,
+  nlAnswers,
+  nlChecked,
+  nlSubmitted,
+  nlFirstCorrect,
+  onModeChange,
+  onFracModeChange,
+  onAnswer,
+  onCheck,
+  onSubmit,
+  onEditAnswers,
+  onNlAnswer,
+  onNlCheck,
+  onNlSubmit,
+  onNlEditAnswers,
 }) {
   const total = problems.length
   const allAnswered = problems.every((_, i) => (answers[i] ?? '') !== '')
 
   const corrections = problems.filter(
-    (p, i) => !firstCorrect.includes(i) && parseInt(answers[i]) === p.answer
+    (p, i) => !firstCorrect.includes(i) && parseInt(answers[i]) === p.answer,
   ).length
   const finalScore = firstCorrect.length + corrections * 0.5
 
@@ -23,10 +45,14 @@ export default function MathTab({
   return (
     <>
       {/* Mode filter tabs */}
-      <div className="tabs">
+      <div className='tabs'>
         <button
           className={`tab${mode === 'mixed' ? ' tab--active' : ''}`}
-          style={mode === 'mixed' ? { borderColor: typeAccent.mixed, color: typeAccent.mixed } : undefined}
+          style={
+            mode === 'mixed'
+              ? { borderColor: typeAccent.mixed, color: typeAccent.mixed }
+              : undefined
+          }
           onClick={() => onModeChange('mixed')}
         >
           🎲 Mixed
@@ -35,7 +61,11 @@ export default function MathTab({
           <button
             key={t}
             className={`tab${mode === t ? ' tab--active' : ''}`}
-            style={mode === t ? { borderColor: typeAccent[t], color: typeAccent[t] } : undefined}
+            style={
+              mode === t
+                ? { borderColor: typeAccent[t], color: typeAccent[t] }
+                : undefined
+            }
             onClick={() => onModeChange(t)}
           >
             {emoji} {typeName[t]}
@@ -45,7 +75,7 @@ export default function MathTab({
 
       {/* Fractions sub-tabs */}
       {mode === 'frac' && (
-        <div className="sub-tabs">
+        <div className='sub-tabs'>
           <button
             className={`sub-tab${fracMode === 'cards' ? ' sub-tab--active' : ''}`}
             onClick={() => onFracModeChange('cards')}
@@ -79,7 +109,7 @@ export default function MathTab({
       {/* Fraction Cards / other modes grid */}
       {!isNL && (
         <>
-          <div className="grid">
+          <div className='grid'>
             {problems.map((p, i) => {
               const ans = answers[i] ?? ''
               const isFirstCorrect = firstCorrect.includes(i)
@@ -91,9 +121,15 @@ export default function MathTab({
               return (
                 <div
                   key={i}
-                  className="card"
+                  className='card'
                   style={{
-                    borderColor: ok ? '#1DD1A1' : bad ? '#FF6B6B' : skip ? '#FFD700' : color + '55',
+                    borderColor: ok
+                      ? '#1DD1A1'
+                      : bad
+                        ? '#FF6B6B'
+                        : skip
+                          ? '#FFD700'
+                          : color + '55',
                     background: ok
                       ? 'linear-gradient(135deg,#0d2e27,#1a4a3a)'
                       : bad
@@ -101,11 +137,11 @@ export default function MathTab({
                         : 'linear-gradient(135deg,#1a1a2e,#16213e)',
                   }}
                 >
-                  <div className="card-num">{i + 1}</div>
-                  <div className="card-type">{typeLabel[p.type]}</div>
-                  <div className="problem">{p.display} =</div>
+                  <div className='card-num'>{i + 1}</div>
+                  <div className='card-type'>{typeLabel[p.type]}</div>
+                  <div className='problem'>{p.display} =</div>
                   <input
-                    className="input"
+                    className='input'
                     style={{
                       borderColor: ok ? '#1DD1A1' : bad ? '#FF6B6B' : color,
                       color: ok ? '#1DD1A1' : bad ? '#FF6B6B' : '#fff',
@@ -116,51 +152,85 @@ export default function MathTab({
                     disabled={submitted || isFirstCorrect}
                     onChange={e => onAnswer(i, e.target.value)}
                   />
-                  {ok && isFirstCorrect  && <div className="feedback">✅ Correct!</div>}
-                  {ok && !isFirstCorrect && checked && <div className="feedback feedback--correction">✅ +0.5 correction</div>}
-                  {bad  && <div className="feedback feedback--wrong">❌ It's {p.answer}</div>}
-                  {skip && <div className="feedback feedback--skip">⚠️ Skipped</div>}
+                  {ok && isFirstCorrect && (
+                    <div className='feedback'>✅ Correct!</div>
+                  )}
+                  {ok && !isFirstCorrect && checked && (
+                    <div className='feedback feedback--correction'>
+                      ✅ +0.5 correction
+                    </div>
+                  )}
+                  {bad && (
+                    <div className='feedback feedback--wrong'>
+                      ❌ It's {p.answer}
+                    </div>
+                  )}
+                  {skip && (
+                    <div className='feedback feedback--skip'>⚠️ Skipped</div>
+                  )}
                 </div>
               )
             })}
           </div>
 
-          <div className="actions">
+          <div className='actions'>
             {!checked ? (
               <button
-                className="btn-check"
+                className='btn-check'
                 style={{ opacity: allAnswered ? 1 : 0.6 }}
                 onClick={onCheck}
               >
                 Check My Answers ✅
               </button>
             ) : !submitted ? (
-              <div className="result-panel">
-                <div className="result-emoji">
-                  {firstCorrect.length === total ? '🏆' : firstCorrect.length >= total * 0.75 ? '👍' : '📚'}
+              <div className='result-panel'>
+                <div className='result-emoji'>
+                  {firstCorrect.length === total
+                    ? '🏆'
+                    : firstCorrect.length >= total * 0.75
+                      ? '👍'
+                      : '📚'}
                 </div>
-                <div className="result-text">
+                <div className='result-text'>
                   {firstCorrect.length === total
                     ? `Perfect first try, ${STUDENT_NAME}! 🎉`
                     : `${firstCorrect.length}/${total} on first try — fix the ones in red above!`}
                 </div>
-                <div className="result-score">{firstCorrect.length}/{total} first attempt</div>
-                <button className="btn-check" style={{ marginBottom: '10px' }} onClick={onSubmit}>Submit Results 📬</button>
+                <div className='result-score'>
+                  {firstCorrect.length}/{total} first attempt
+                </div>
+                <button
+                  className='btn-check'
+                  style={{ marginBottom: '10px' }}
+                  onClick={onSubmit}
+                >
+                  Submit Results 📬
+                </button>
                 <br />
-                <button className="btn" onClick={onEditAnswers}>✏️ Fix a typo</button>
+                <button className='btn' onClick={onEditAnswers}>
+                  ✏️ Fix a typo
+                </button>
               </div>
             ) : (
-              <div className="result-panel">
-                <div className="result-emoji">
-                  {finalScore === total ? '🏆' : finalScore >= total * 0.9 ? '🌟' : finalScore >= total * 0.75 ? '👍' : '💪'}
+              <div className='result-panel'>
+                <div className='result-emoji'>
+                  {finalScore === total
+                    ? '🏆'
+                    : finalScore >= total * 0.9
+                      ? '🌟'
+                      : finalScore >= total * 0.75
+                        ? '👍'
+                        : '💪'}
                 </div>
-                <div className="result-text">
+                <div className='result-text'>
                   {finalScore === total
                     ? `Perfect score, ${STUDENT_NAME}! You're a math superstar! 🎉`
                     : `Great effort, ${STUDENT_NAME}!`}
                 </div>
-                <div className="result-score">{finalScore}/{total} points</div>
-                <div className="result-breakdown">
+                <div className='result-score'>
+                  {finalScore}/{total} points
+                </div>
+                <div className='result-breakdown'>
                   {firstCorrect.length} × 1pt + {corrections} × 0.5pt
                 </div>
               </div>

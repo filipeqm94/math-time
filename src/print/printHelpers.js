@@ -115,8 +115,8 @@ export function printNumberLines(problems, playerName) {
           <div class="nl-tick-mark"></div>
           <div class="nl-frac">
             ${isStart
-              ? `<span class="nl-given">0</span>`
-              : `<div class="nl-stacked"><span>&nbsp;&nbsp;&nbsp;</span><div class="nl-line"></div><span>&nbsp;&nbsp;&nbsp;</span></div>`}
+          ? `<span class="nl-given">0</span>`
+          : `<div class="nl-stacked"><span>&nbsp;&nbsp;&nbsp;</span><div class="nl-line"></div><span>&nbsp;&nbsp;&nbsp;</span></div>`}
           </div>
         </div>`
     }).join('')
