@@ -41,17 +41,21 @@ export default function NameHeader({
             {wFinalScore === wTotal ? '🏆' : wFinalScore >= wTotal * 0.75 ? '⭐' : '📝'} {wFinalScore}/{wTotal}
           </div>
         )}
-        <button className="btn-print" onClick={onPrint}>
-          🖨️ Print Sheet
-        </button>
-        <button
-          className="btn"
-          onClick={onNew}
-          disabled={!canNew}
-          style={{ opacity: canNew ? 1 : 0.4, cursor: canNew ? 'pointer' : 'not-allowed' }}
-        >
-          New Problems 🎲
-        </button>
+        {tab !== 'tables' && (
+          <>
+            <button className="btn-print" onClick={onPrint}>
+              🖨️ Print Sheet
+            </button>
+            <button
+              className="btn"
+              onClick={onNew}
+              disabled={!canNew}
+              style={{ opacity: canNew ? 1 : 0.4, cursor: canNew ? 'pointer' : 'not-allowed' }}
+            >
+              New Problems 🎲
+            </button>
+          </>
+        )}
       </div>
     </div>
   )

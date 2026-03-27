@@ -1,0 +1,135 @@
+.tables-tab {
+  padding-bottom: 40px;
+}
+
+/* Operation selector */
+.tables-ops {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.tables-op {
+  background: rgba(255, 255, 255, 0.05);
+  color: #888;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.tables-op--active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Toolbar row: study/quiz + print */
+.tables-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.tables-mode-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tables-toggle {
+  background: rgba(255, 255, 255, 0.05);
+  color: #888;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.tables-toggle--active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.tables-hint {
+  font-size: 0.82rem;
+  color: #aaa;
+  font-weight: 600;
+}
+
+/* Grid of tabuada cards */
+.tabuadas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.tabuada-card {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 2px solid;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.tabuada-title {
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tabuada-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+}
+
+.tabuada-eq {
+  color: #ddd;
+  font-size: 0.9rem;
+}
+
+.tabuada-result {
+  font-weight: 900;
+  font-size: 1rem;
+  min-width: 28px;
+  text-align: right;
+}
+
+.tabuada-result--quiz {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 1px 6px;
+  text-align: center;
+}
+
+.tabuada-result--quiz:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.tabuada-result--shown {
+  font-size: 1rem;
+  background: none;
+  padding: 0;
+}

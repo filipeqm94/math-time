@@ -8,6 +8,7 @@ import { printProblems, printWordProblems, printNumberLines } from "./print/prin
 import NameHeader from "./components/NameHeader/NameHeader.jsx";
 import MathTab from "./components/MathTab/MathTab.jsx";
 import WordTab from "./components/WordTab/WordTab.jsx";
+import TablesTab from "./components/TablesTab/TablesTab.jsx";
 import "./App.css";
 
 function isProblemCorrectNL(p, i, answers) {
@@ -154,6 +155,9 @@ export default function App() {
         <button className={`main-tab${tab === "word" ? " main-tab--active" : ""}`} onClick={() => setTab("word")}>
           📖 Word Problems
         </button>
+        <button className={`main-tab${tab === "tables" ? " main-tab--active" : ""}`} onClick={() => setTab("tables")}>
+          📋 Tables
+        </button>
       </div>
 
       {tab === "math" && (
@@ -182,6 +186,8 @@ export default function App() {
           onNlEditAnswers={editNLAnswers}
         />
       )}
+
+      {tab === "tables" && <TablesTab />}
 
       {tab === "word" && (
         <WordTab
